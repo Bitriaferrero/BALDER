@@ -1,141 +1,155 @@
 # AUDITORIA
 
-Directorio con el informe de la auditoría de red y el script para repetirla.
+This directory contains the network audit report and the script used to reproduce it.
 
-## Contenido
+## Overview
 
-| Archivo | Descripción |
+`auditoria_red.py` performs a passive-but-useful network audit of a local LAN or specified CIDR range. It discovers active hosts, checks common network services, inspects exposed ports, identifies likely devices and services, enriches host metadata, and generates a self-contained HTML report with findings and recommendations.
+
+This project is intended for internal or authorized networks only. It is designed for auditing and visibility, not for exploitation or unauthorized scanning.
+
+## Contents
+
+| File | Description |
 |---|---|
-| `informe_auditoria_2026-10-19.html` | Informe completo de la auditoría del 19/10/2026, con estilos, colores, tablas, índice y badges de severidad. Se abre en cualquier navegador. |
-| `auditoria_red.py` | Script que pide el rango, escanea la red y genera un informe HTML nuevo. |
-| `informes/` | Informes y JSON generados por el script. |
-| `informes/raw/` | Salidas XML crudas de nmap (descubrimiento, preescaneo, puertos altos y escaneo principal). |
+| `informe_auditoria_2026-10-19.html` | Full audit report dated 19/10/2026, including styles, colors, tables, a summary index and severity badges. Opens in any browser. |
+| `auditoria_red.py` | Script that prompts for the target range, scans the network, and generates a fresh HTML report. |
+| `informes/` | Reports and JSON summaries produced by the script. |
+| `informes/raw/` | Raw XML output from nmap, including discovery, pre-scan, high-port checks and main scan results. |
 
-## Requisitos
+## Requirements
 
-- Python 3.9 o superior.
-- `nmap` instalado y en el `PATH`.
-- `curl` (opcional, para comprobar pve-exporter, Promtail, Deluge, etc.).
+- Python 3.9 or newer
+- `nmap` installed and available in `PATH`
+- `curl` (optional, used for checks such as pve-exporter, Promtail, Deluge, etc.)
 
-Instalación en Arch:
+### Install on Arch Linux
 
 ```bash
 sudo pacman -S nmap curl
 ```
 
-En Debian/Ubuntu:
+### Install on Debian / Ubuntu
 
 ```bash
 sudo apt install nmap curl
 ```
 
-No hace falta root. El script usa `nmap -sT` (TCP connect), por lo que funciona como usuario normal. Sin root no hay fingerprint de SO ni escaneo UDP; el SO se infiere por banners y puertos.
+## Notes
 
-## Uso
+No root privileges are required. The script uses `nmap -sT` (TCP connect scan), so it works as a normal user. Without root access, OS fingerprinting and UDP scanning are unavailable. In that case, the operating system is inferred from banners and open ports.
+
+## Usage
 
 ```bash
 cd ~/AUDITORIA
 python3 auditoria_red.py
 ```
 
-El script pregunta:
+The script will prompt for the following:
 
-1. **Rango a auditar** — por defecto `192.168.1.0/24`. Puedes cambiarlo a `10.0.0.0/24`, `192.168.0.0/24`, etc.
-2. **¿Escaneo completo?** — `s` escanea los 65535 puertos TCP (más lento); `N` usa el modo rápido.
-3. **¿Abrir el informe?** — al terminar.
+1. **Range to audit** — defaults to `192.168.1.0/24`. You can change it to values such as `10.0.0.0/24`, `192.168.0.0/24`, etc.
+2. **Full scan?** — `s` runs a full TCP scan (all 65535 ports, slower), while `N` uses the quick scan mode.
+3. **Open the report?** — asks whether to open the final HTML report after completion.
 
-También acepta argumentos:
+### Command-line arguments
 
 ```bash
-# Modo rápido, sin preguntar por el navegador
+# Quick scan without prompting for the browser
 python3 auditoria_red.py --range 192.168.1.0/24 --quick --no-browser
 
-# Escaneo completo de todos los puertos TCP
+# Full scan of all TCP ports
 python3 auditoria_red.py --range 192.168.1.0/24 --full --no-browser
 
-# Elegir directorio de salida
+# Select a custom output directory
 python3 auditoria_red.py --range 10.0.0.0/24 --quick -o ~/AUDITORIA/informes
 ```
 
-Opciones útiles:
+### Useful options
 
-| Opción | Efecto |
+| Option | Effect |
 |---|---|
-| `-r`, `--range` | Rango CIDR o IP. |
-| `--quick` | Top-1000 puertos TCP + puertos curados de LAN. |
-| `--full` | Los 65535 puertos TCP. |
-| `--top-ports N` | Cambia el top-N del modo rápido. |
-| `--no-scripts` | No ejecuta scripts NSE. |
-| `--open` | Abre el informe al terminar. |
-| `--no-browser` | No pregunta por abrir el navegador. |
-| `-y`, `--yes` | No pide confirmación para rangos públicos (úsalo solo con autorización). |
-| `-o`, `--output-dir` | Directorio de salida. |
+| `-r`, `--range` | CIDR range or IP address to audit. |
+| `--quick` | Scans the top 1000 TCP ports plus curated LAN service ports. |
+| `--full` | Scans all 65535 TCP ports. |
+| `--top-ports N` | Overrides the default top-N port count for quick scans. |
+| `--no-scripts` | Disables NSE script execution. |
+| `--open` | Opens the generated report when the scan completes. |
+| `--no-browser` | Suppresses the browser-opening prompt. |
+| `-y`, `--yes` | Skips confirmation for public ranges; use only with proper authorization. |
+| `-o`, `--output-dir` | Sets the output directory. |
 
-## Qué hace
+## What the script does
 
-1. **Descubrimiento** con `nmap -sn`.
-2. **Preescaneo de puertos clave**: SSH, DNS, HTTP/HTTPS, Proxmox (8006/3128/9221), Promtail (9080), Deluge (8112), Jackett (9117), CPE/TR-069 (4008), puertos altos no identificados, etc.
-3. **Comprobación de puertos altos** sin fingerprint lento, para no perder dispositivos con servicios desconocidos.
-4. **Escaneo principal** del top-1000 (o de todos los puertos con `--full`), excluyendo los ya vistos.
-5. **Detección de versiones y scripts NSE seguros**: `banner`, `http-title`, `http-headers`, `ssl-cert`, `ssh-hostkey`, `rpcinfo`.
-6. **Enriquecimiento de MAC/OUI** con `ip neigh` y `/usr/share/nmap/nmap-mac-prefixes`, para identificar Proxmox (`BC:24:11`), router ZTE, etc.
-7. **Inventario Proxmox** sin autenticación si encuentra `pve-exporter` en `:9221` (clúster, nodos, versión, guests).
-8. **Reglas de seguridad**:
-   - Proxmox VE 8.x EOL.
-   - Promtail 2.x EOL y sin autenticación.
-   - pve-exporter sin autenticación.
-   - BIND 9.18 EOL y CVEs conocidas.
-   - Router ZTE con HTTP/firmware antiguo.
-   - Deluge/Jackett por HTTP.
-   - rpcbind, CPE/TR-069, gestión de Proxmox expuesta.
-   - OpenSSH: regreSSHion y builds atrasados.
-   - Ubuntu interim EOL, Caddy sin sitio, puertos altos desconocidos.
-9. **Informe HTML** autocontenido (sin dependencias externas) y **JSON** con el resumen.
+1. **Host discovery** using `nmap -sn`
+2. **Pre-scan of key ports** such as SSH, DNS, HTTP/HTTPS, Proxmox services (`8006`, `3128`, `9221`), Promtail (`9080`), Deluge (`8112`), Jackett (`9117`), CPE/TR-069 (`4008`), plus high-risk or unclassified ports
+3. **High-port validation** without slow fingerprinting, to avoid missing devices with unknown services
+4. **Main scan** of the top 1000 ports (or all ports with `--full`), excluding ports already seen
+5. **Version detection and safe NSE scripts**, including:
+   - `banner`
+   - `http-title`
+   - `http-headers`
+   - `ssl-cert`
+   - `ssh-hostkey`
+   - `rpcinfo`
+6. **MAC/OUI enrichment** using `ip neigh` and `/usr/share/nmap/nmap-mac-prefixes` to identify vendors such as Proxmox (`BC:24:11`), ZTE routers and others
+7. **Proxmox inventory** without authentication when `pve-exporter` is detected on `:9221`, including cluster data, nodes, versions and guests
+8. **Security rule checks**, including:
+   - Proxmox VE 8.x end-of-life
+   - Promtail 2.x end-of-life and unauthenticated exposure
+   - Unauthenticated `pve-exporter`
+   - BIND 9.18 end-of-life and known CVEs
+   - Older ZTE router firmware exposed over HTTP
+   - Deluge and Jackett exposed over HTTP
+   - `rpcbind`, CPE/TR-069 and exposed Proxmox management interfaces
+   - OpenSSH regreSSHion and outdated builds
+   - Ubuntu interim releases nearing EOL
+   - Unconfigured Caddy instances and unknown high ports
+9. **Generates an HTML report** with embedded styles and a **JSON summary** for automation and further analysis
 
-## Salida
+## Output
 
-Cada ejecución crea:
+Each execution creates the following output:
 
 ```text
-informes/informe_<rango>_<fecha_hora>.html
-informes/informe_<rango>_<fecha_hora>.json
+informes/informe_<range>_<date_time>.html
+informes/informe_<range>_<date_time>.json
 informes/raw/discovery_<...>.xml
 informes/raw/prescan_<...>.xml
 informes/raw/unknown_ports_<...>.xml
 informes/raw/scan_<...>.xml
 ```
 
-El HTML incluye:
+The HTML report includes:
 
-- Resumen con contadores por severidad.
-- Inventario de hosts (IP, MAC/OUI, tipo/SO, puertos, notas).
-- Inventario Proxmox (clúster, nodos, versión, guests).
-- Hallazgos con evidencia, recomendación y CVEs.
-- Comprobaciones que salieron bien.
-- Detalle por host con puertos, versiones y scripts NSE.
-- Metodología y limitaciones.
-- Botón para imprimir o guardar como PDF.
+- Severity summary and counters
+- Host inventory with IP, MAC/OUI, OS type, open ports and notes
+- Proxmox inventory with cluster, nodes, versions and guests
+- Findings with evidence, recommended actions and CVEs
+- Passed checks and validation results
+- Detailed per-host information including ports, versions and NSE scripts
+- Methodology and limitations
+- Print-to-PDF friendly output
 
-## Limitaciones
+## Limitations
 
-- Sin root no hay `-O` (fingerprint de SO) ni escaneo UDP.
-- El SO es una inferencia por banners/puertos.
-- Las reglas EOL/CVE son heurísticas; confirma siempre con los avisos oficiales.
-- La asignación exacta IP → guest Proxmox requiere DHCP o la API con credenciales.
-- La exposición desde WAN no se puede comprobar desde la LAN.
-- El descubrimiento depende de que los hosts respondan; un equipo que bloquee todo puede no aparecer.
-- No se prueban credenciales, no se explotan vulnerabilidades y no se modifica nada.
+- Without root privileges, there is no OS fingerprinting (`-O`) and no UDP scan
+- OS detection is inferred from banners and port behavior
+- EOL and CVE checks are heuristic; always confirm against official vendor advisories
+- Exact mapping from IP to Proxmox guest requires DHCP information or API access with valid credentials
+- Exposure from the WAN cannot be assessed from inside the LAN
+- Discovery depends on hosts responding; a device that blocks all traffic may not appear
+- No credentials are tested, no vulnerabilities are exploited, and no system changes are made
 
-## Aviso
+## Disclaimer
 
-Usa el script solo en redes propias o con autorización expresa. Un escaneo a rangos públicos puede ser ilegal.
+Use this script only on networks you own or have explicit authorization to audit. Scanning public or unauthorized ranges may be illegal or against policy depending on your jurisdiction.
 
 ---
 
-## Visor OVERSEER
+## OVERSEER View
 
-Esta copia del proyecto incluye un visor web local en `OVERSEER/` que agrega
-todos los JSON de `informes/` y muestra la red en una interfaz oscura:
+This project also includes a local web viewer in `OVERSEER/`, which aggregates all JSON reports from `informes/` and displays the network in a dark-themed interface.
 
 ```bash
 cd ~/AUDITORIA_PLUS/OVERSEER
@@ -143,10 +157,14 @@ cd ~/AUDITORIA_PLUS/OVERSEER
 # http://127.0.0.1:8770
 ```
 
-- Columna izquierda: IP, SO y tipo (`Proxmox`, `LXC/VM?`, `LXC`, `VM`…).
-- Panel central: resumen general o detalle del host con gráficos y pestañas.
-- Histórico entre escaneos y clasificación manual LXC/VM (`annotations.json`).
-- No escanea ni modifica nada: solo lee los informes.
+### Features
 
-Detalles en [`OVERSEER/README.md`](OVERSEER/README.md).
+- Left column: IP address, OS and device type (`Proxmox`, `LXC/VM?`, `LXC`, `VM`, etc.)
+- Central panel: general overview or detailed host view with charts and tabs
+- Historical comparison across scans
+- Manual LXC/VM classification via `annotations.json`
+- Read-only behavior: it does not scan or modify the network
+
+For more details, see [`OVERSEER/README.md`](OVERSEER/README.md).
+
 # OVERSEER
