@@ -1,0 +1,18 @@
+Sin preguntar por navegador
+python3 auditoria_red.py --range 192.168.1.0/24 --quick --no-browser
+
+todos puerto sCP
+python3 auditoria_red.py --range 192.168.1.0/24 --full --no-browser
+
+
+1 - rango auditar
+
+2 - n + enter : modo rapido (top-1000 + puertos clave)
+3 - s + enter : modo completo tarda mas
+4 - abrir en navegador report?
+
+rapido
+auiditoria2.py -r 192.168.1.0/24 --quick --no-browser --open
+                                 --full  --no-browser --open
+                                 --quick -open
+ 

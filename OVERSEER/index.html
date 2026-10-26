@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="OVERSEER — visor local de auditorías de red">
+  <title>OVERSEER · network intelligence</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0a0a'/%3E%3Cpath d='M6 10h20M6 16h20M6 22h20' stroke='%23fab283' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='11' cy='10' r='2.4' fill='%235c9cf5'/%3E%3Ccircle cx='21' cy='16' r='2.4' fill='%237fd88f'/%3E%3Ccircle cx='15' cy='22' r='2.4' fill='%23e06c75'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand" id="brand" role="button" tabindex="0" title="Volver al resumen general">
+        <div class="brand-mark" aria-hidden="true">▚</div>
+        <div>
+          <h1>OVERSEER</h1>
+          <p>network intelligence</p>
+        </div>
+      </div>
+
+      <div class="top-meta" id="top-meta" aria-live="polite"></div>
+
+      <div class="top-actions">
+        <input
+          class="search"
+          id="search"
+          type="search"
+          placeholder="Buscar IP, SO, tipo, MAC…  ( / )"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Buscar hosts">
+        <button class="icon-btn" id="refresh" type="button" title="Recargar datos (R)" aria-label="Recargar datos">⟳</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <aside class="sidebar" id="sidebar" aria-label="Listado de hosts">
+        <div class="side-empty">Cargando hosts…</div>
+      </aside>
+      <section class="detail" id="detail" aria-live="polite">
+        <div class="empty">
+          <div class="glyph">▚</div>
+          <h2>OVERSEER</h2>
+          <p>Conectando con el servidor local…</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>OVERSEER · visor local de informes <code>auditoria_red2.py</code></span>
+      <span id="foot-meta"></span>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

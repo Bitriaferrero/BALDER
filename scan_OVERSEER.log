@@ -1,0 +1,551 @@
+
+====================================================================
+ Auditoría de red — 192.168.1.0/24
+ Fecha: 2026-10-26 17:58:33
+ Modo: top-ports (1000)
+ Salida: /home/rorshach/AUDITORIA_PLUS/informes
+====================================================================
+
+[*] Descubrimiento de hosts...
+
+$ nmap -sn -oX /home/rorshach/AUDITORIA_PLUS/informes/raw/discovery_192_168_1_0_24_20261026_175833.xml 192.168.1.0/24
+  Starting Nmap 7.992 ( https://nmap.org ) at 2026-10-26 17:58 +0100
+  Nmap scan report for 192.168.1.1
+  Host is up (0.0042s latency).
+  Nmap scan report for 192.168.1.33
+  Host is up (0.0068s latency).
+  Nmap scan report for 192.168.1.38
+  Host is up (0.0063s latency).
+  Nmap scan report for 192.168.1.39
+  Host is up (0.0017s latency).
+  Nmap scan report for 192.168.1.108
+  Host is up (0.012s latency).
+  Nmap scan report for 192.168.1.130
+  Host is up (0.000067s latency).
+  Nmap scan report for 192.168.1.150
+  Host is up (0.0093s latency).
+  Nmap scan report for 192.168.1.151
+  Host is up (0.0093s latency).
+  Nmap scan report for 192.168.1.152
+  Host is up (0.0098s latency).
+  Nmap scan report for 192.168.1.165
+  Host is up (0.012s latency).
+  Nmap done: 256 IP addresses (10 hosts up) scanned in 2.91 seconds
+
+[*] Preescaneo de puertos clave (11 host(s))...
+
+$ nmap -sT -sV -Pn -T4 --open -oX /home/rorshach/AUDITORIA_PLUS/informes/raw/prescan_192_168_1_0_24_20261026_175833.xml --script banner,http-title,http-headers,ssl-cert,ssh-hostkey,rpcinfo --script-timeout 30s -p 22,53,80,111,443,445,631,993,995,2049,3000,3128,3306,3389,4008,5000,5432,5900,6379,8000,8006,8080,8081,8112,8 …
+  Starting Nmap 7.992 ( https://nmap.org ) at 2026-10-26 17:58 +0100
+  Nmap scan report for 192.168.1.1
+  Host is up (0.0046s latency).
+  Not shown: 30 closed tcp ports (conn-refused), 1 filtered tcp port (no-response)
+  Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+  PORT     STATE SERVICE    VERSION
+  53/tcp   open  domain     ISC BIND 9.18.41
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  80/tcp   open  http?
+  | fingerprint-strings:
+  |   GetRequest:
+  |     HTTP/1.0 200 OK
+  |     Server: ZTE web server 1.0 ZTE corp 2015.
+  |     Accept-Ranges: bytes
+  |     Connection: close
+  |     X-Frame-Options: SAMEORIGIN
+  |     Cache-Control: no-cache,no-store
+  |     Content-Length: 153277
+  |     Set-Cookie: SID=7414a9b0047c1b2e7521a4d4b0c0dc621e8cd0e33e10a91c96a3611834c49b06; PATH=/; HttpOnly
+  |     Set-Cookie: _TESTCOOKIESUPPORT=1; PATH=/; HttpOnly
+  |     X-Content-Type-Options: nosniff
+  |     X-XSS-Protection: 1; mode=block
+  |     Content-Security-Policy: frame-ancestors 'self' data:
+  |     Content-Type: text/html; charset=utf-8
+  |     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+  |     <html xmlns="http://www.w3.org/1999/xhtml">
+  |     <head>
+  |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  |     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  |     <meta name="format-detection" content="telephone=no,email=no,address=no">
+  |     <link rel="shortcut icon" href="/img/f
+  |   HTTPOptions:
+  |     HTTP/1.1 400 Bad Request
+  |     Server: ZTE web server 1.0 ZTE corp 2015.
+  |     Accept-Ranges: bytes
+  |     Connection: close
+  |     X-Frame-Options: SAMEORIGIN
+  |     Content-Type: text/html; charset=iso-8859-1
+  |     X-Content-Type-Options: nosniff
+  |     X-XSS-Protection: 1; mode=block
+  |     Content-Security-Policy: frame-ancestors 'self' data:
+  |     Cache-Control: no-cache,no-store
+  |     <html>
+  |     <head><title>400 Bad Request</title></head>
+  |     <body bgcolor="#FFFFFF" text="#000000" link="#2020ff" vlink="#4040cc">
+  |     <h2>400 Bad Request</h2>
+  |     Your request has bad syntax or is inherently impossible to satisfy.
+  |     <div style="display:none">
+  |     <ajax_response_xml_root>
+  |     <IF_ERRORSTR>SessionTimeout</IF_ERRORSTR>
+  |     <IF_ERRORPARAM>SUCC</IF_ERRORPARAM>
+  |_    <IF_ERRORTYPE>SUCC</IF_ERRORTY
+  |_http-title: &#72;&#51;&#54;&#48;&#48;&#80;&#32;&#86;&#57;&#46;&#48;
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  | http-headers:
+  |   Server: ZTE web server 1.0 ZTE corp 2015.
+  |   Accept-Ranges: bytes
+  |   Connection: close
+  |   X-Frame-Options: SAMEORIGIN
+  |   Cache-Control: no-cache,no-store
+  |   Content-Length: 153277
+  |   Set-Cookie: SID=a01abdded681b93a8f562877c97ba7542822caf6f600e01dc4d2cbeea1247b6a; PATH=/; HttpOnly
+  |   Set-Cookie: _TESTCOOKIESUPPORT=1; PATH=/; HttpOnly
+  |   X-Content-Type-Options: nosniff
+  |   X-XSS-Protection: 1; mode=block
+  |   Content-Security-Policy: frame-ancestors 'self' data:
+  |   Content-Type: text/html; charset=utf-8
+  |
+  |_  (Request type: GET)
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  |_weblogic-t3-info: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  |_skypev2-version: ERROR: Script execution failed (use -d to debug)
+  443/tcp  open  ssl/https?
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  | ssl-cert: Subject: commonName=192.168.1.1/organizationName=ZTE/stateOrProvinceName=JiangSu/countryName=CN
+  | Issuer: commonName=ZTE-ROOT-CA/organizationName=ZTE/stateOrProvinceName=GuangDong/countryName=CN
+  | Public Key type: rsa
+  | Public Key bits: 2048
+  | Signature Algorithm: sha512WithRSAEncryption
+  | Not valid before: 2016-07-13T01:32:15
+  | Not valid after:  2031-07-10T01:32:15
+  | MD5:     a601 c9f7 d23f e6bf e93f 884c 1e1a e804
+  | SHA-1:   db2c f636 b209 1612 bddf 1e59 1706 d472 b640 0cbd
+  |_SHA-256: 4caa 880f 5db7 a65c b455 4b8a 07d7 d178 f4bc 8076 fa18 a83a 980e 805e 1899 8532
+  |_http-title: &#72;&#51;&#54;&#48;&#48;&#80;&#32;&#86;&#57;&#46;&#48;
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  |_skypev2-version: ERROR: Script execution failed (use -d to debug)
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  | fingerprint-strings:
+  |   GetRequest:
+  |     HTTP/1.0 200 OK
+  |     Server: ZTE web server 1.0 ZTE corp 2015.
+  |     Accept-Ranges: bytes
+  |     Connection: close
+  |     X-Frame-Options: SAMEORIGIN
+  |     Cache-Control: no-cache,no-store
+  |     Content-Length: 153277
+  |     Set-Cookie: SID_HTTPS_=980153ac64ca1f3451ea25762d213bfd848ca1469594aa20f282ddde3e7de2a2; PATH=/; HttpOnly; Secure
+  |     Set-Cookie: _TESTCOOKIESUPPORT_HTTPS_=1; PATH=/; HttpOnly; Secure
+  |     X-Content-Type-Options: nosniff
+  |     X-XSS-Protection: 1; mode=block
+  |     Content-Security-Policy: frame-ancestors 'self' data:
+  |     Content-Type: text/html; charset=utf-8
+  |     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+  |     <html xmlns="http://www.w3.org/1999/xhtml">
+  |     <head>
+  |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  |     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  |     <meta name="format-detection" content="telephone=no,email=no,address=no">
+  |     <link re
+  |   HTTPOptions:
+  |     HTTP/1.1 400 Bad Request
+  |     Server: ZTE web server 1.0 ZTE corp 2015.
+  |     Accept-Ranges: bytes
+  |     Connection: close
+  |     X-Frame-Options: SAMEORIGIN
+  |     Content-Type: text/html; charset=iso-8859-1
+  |     X-Content-Type-Options: nosniff
+  |     X-XSS-Protection: 1; mode=block
+  |     Content-Security-Policy: frame-ancestors 'self' data:
+  |     Cache-Control: no-cache,no-store
+  |     <html>
+  |     <head><title>400 Bad Request</title></head>
+  |     <body bgcolor="#FFFFFF" text="#000000" link="#2020ff" vlink="#4040cc">
+  |     <h2>400 Bad Request</h2>
+  |     Your request has bad syntax or is inherently impossible to satisfy.
+  |     <div style="display:none">
+  |     <ajax_response_xml_root>
+  |     <IF_ERRORSTR>SessionTimeout</IF_ERRORSTR>
+  |     <IF_ERRORPARAM>SUCC</IF_ERRORPARAM>
+  |_    <IF_ERRORTYPE>SUCC</IF_ERRORTY
+  | http-headers:
+  |   Server: ZTE web server 1.0 ZTE corp 2015.
+  |   Accept-Ranges: bytes
+  |   Connection: close
+  |   X-Frame-Options: SAMEORIGIN
+  |   Cache-Control: no-cache,no-store
+  |   Content-Length: 153277
+  |   Set-Cookie: SID_HTTPS_=384d3d9dccc12a126bfcaf6ac05442d16979b540ee7c2ec5bf1cf160db25e0cf; PATH=/; HttpOnly; Secure
+  |   Set-Cookie: _TESTCOOKIESUPPORT_HTTPS_=1; PATH=/; HttpOnly; Secure
+  |   X-Content-Type-Options: nosniff
+  |   X-XSS-Protection: 1; mode=block
+  |   Content-Security-Policy: frame-ancestors 'self' data:
+  |   Content-Type: text/html; charset=utf-8
+  |
+  |_  (Request type: GET)
+  4008/tcp open  netcheque?
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  | fingerprint-strings:
+  |   DNSStatusRequestTCP, DNSVersionBindReqTCP, FourOhFourRequest, GenericLines, GetRequest, HTTPOptions, Help, Kerberos, LDAPSearchReq, LPDString, RPCCheck, RTSPRequest, SMBProgNeg, SSLSessionReq, TLSSessionReq, TerminalServerCookie, X11Probe:
+  |     HTTP/1.1 400 Bad Request
+  |_    Server: CPE-SERVER/1.0 Supports only GET
+  3 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+  Nmap scan report for 192.168.1.33
+  Host is up (0.0041s latency).
+  Not shown: 34 closed tcp ports (conn-refused)
+  PORT   STATE SERVICE VERSION
+  22/tcp open  ssh     OpenSSH 9.7p1 Ubuntu 7ubuntu4.3 (Ubuntu Linux; protocol 2.0)
+  | ssh-hostkey:
+  |   256 37:9a:62:a7:61:f8:ec:e3:52:46:ac:64:96:5b:e9:d5 (ECDSA)
+  |_  256 90:dd:c9:01:f8:2e:df:7e:58:44:94:1d:da:57:bb:71 (ED25519)
+  |_banner: SSH-2.0-OpenSSH_9.7p1 Ubuntu-7ubuntu4.3
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.38
+  Host is up (0.0037s latency).
+  Not shown: 29 closed tcp ports (conn-refused)
+  PORT     STATE SERVICE        VERSION
+  22/tcp   open  ssh            OpenSSH 9.2p1 Debian 2+deb12u10 (protocol 2.0)
+  | ssh-hostkey:
+  |   256 50:af:1b:ca:ff:bd:48:00:7b:f5:4e:2d:1c:e8:92:ad (ECDSA)
+  |_  256 f0:11:7e:c0:37:10:17:6f:7f:02:0c:ef:a6:f1:31:2e (ED25519)
+  |_banner: SSH-2.0-OpenSSH_9.2p1 Debian-2+deb12u10
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  111/tcp  open  rpcbind        2-4 (RPC #100000)
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  | rpcinfo:
+  |   program version    port/proto  service
+  |   100000  2,3,4        111/tcp   rpcbind
+  |   100000  2,3,4        111/udp   rpcbind
+  |   100000  3,4          111/tcp6  rpcbind
+  |_  100000  3,4          111/udp6  rpcbind
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  3128/tcp open  http           Proxmox Virtual Environment REST API 3.0
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  |_http-title: Site doesn't have a title.
+  | http-headers:
+  |   Cache-Control: max-age=0
+  |   Connection: close
+  |   Date: Mon, 26 Oct 2026 17:00:31 GMT
+  |   Pragma: no-cache
+  |   Server: pve-api-daemon/3.0
+  |   Expires: Mon, 26 Oct 2026 17:00:31 GMT
+  |
+  |_  (Request type: GET)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  8006/tcp open  wpl-analytics?
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  | fingerprint-strings:
+  |   HTTPOptions:
+  |     HTTP/1.0 501 method 'OPTIONS' not available
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:58:58 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Expires: Mon, 26 Oct 2026 16:58:58 GMT
+  |   Help, Kerberos, TerminalServerCookie:
+  |     HTTP/1.0 400 bad request
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:59:13 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Content-Length: 11
+  |     Expires: Mon, 26 Oct 2026 16:59:13 GMT
+  |     request
+  |   LDAPSearchReq, LPDString:
+  |     HTTP/1.0 400 bad request
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:59:23 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Content-Length: 11
+  |     Expires: Mon, 26 Oct 2026 16:59:23 GMT
+  |     request
+  |   RTSPRequest:
+  |     HTTP/1.0 400 bad request
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:58:58 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Content-Length: 11
+  |     Expires: Mon, 26 Oct 2026 16:58:58 GMT
+  |_    request
+  9080/tcp open  http           Golang net/http server (Go-IPFS json-rpc or InfluxDB API)
+  |_http-title: Did not follow redirect to /targets
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  | http-headers:
+  |   Content-Type: text/html; charset=utf-8
+  |   Location: /targets
+  |   Date: Mon, 26 Oct 2026 17:00:32 GMT
+  |   Content-Length: 35
+  |   Connection: close
+  |
+  |_  (Request type: GET)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  9221/tcp open  http           Gunicorn
+  | http-headers:
+  |   Server: gunicorn
+  |   Date: Mon, 26 Oct 2026 17:00:30 GMT
+  |   Connection: close
+  |   content-type: text/html
+  |   Content-Length: 232
+  |
+  |_  (Request type: HEAD)
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  |_http-title: Proxmox VE Exporter
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.39
+  Host is up (0.0038s latency).
+  Not shown: 31 closed tcp ports (conn-refused)
+  PORT     STATE SERVICE        VERSION
+  22/tcp   open  ssh            OpenSSH 9.2p1 Debian 2+deb12u10 (protocol 2.0)
+  | ssh-hostkey:
+  |   256 df:71:f8:63:43:71:29:23:42:12:30:3e:e4:42:05:b0 (ECDSA)
+  |_  256 93:87:53:fe:91:6f:2e:0e:62:2d:a5:10:f1:a5:d6:10 (ED25519)
+  |_banner: SSH-2.0-OpenSSH_9.2p1 Debian-2+deb12u10
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  111/tcp  open  rpcbind        2-4 (RPC #100000)
+  | rpcinfo:
+  |   program version    port/proto  service
+  |   100000  2,3,4        111/tcp   rpcbind
+  |   100000  2,3,4        111/udp   rpcbind
+  |   100000  3,4          111/tcp6  rpcbind
+  |_  100000  3,4          111/udp6  rpcbind
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  3128/tcp open  http           Proxmox Virtual Environment REST API 3.0
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  | http-headers:
+  |   Cache-Control: max-age=0
+  |   Connection: close
+  |   Date: Mon, 26 Oct 2026 17:00:32 GMT
+  |   Pragma: no-cache
+  |   Server: pve-api-daemon/3.0
+  |   Expires: Mon, 26 Oct 2026 17:00:32 GMT
+  |
+  |_  (Request type: GET)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  |_http-title: Site doesn't have a title.
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  8006/tcp open  wpl-analytics?
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  | fingerprint-strings:
+  |   HTTPOptions:
+  |     HTTP/1.0 501 method 'OPTIONS' not available
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:58:58 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Expires: Mon, 26 Oct 2026 16:58:58 GMT
+  |   Help, Kerberos, TerminalServerCookie:
+  |     HTTP/1.0 400 bad request
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:59:13 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Content-Length: 11
+  |     Expires: Mon, 26 Oct 2026 16:59:13 GMT
+  |     request
+  |   LDAPSearchReq, LPDString:
+  |     HTTP/1.0 400 bad request
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:59:23 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Content-Length: 11
+  |     Expires: Mon, 26 Oct 2026 16:59:23 GMT
+  |     request
+  |   RTSPRequest:
+  |     HTTP/1.0 400 bad request
+  |     Cache-Control: max-age=0
+  |     Connection: close
+  |     Date: Mon, 26 Oct 2026 16:58:58 GMT
+  |     Pragma: no-cache
+  |     Server: pve-api-daemon/3.0
+  |     Content-Length: 11
+  |     Expires: Mon, 26 Oct 2026 16:58:58 GMT
+  |_    request
+  1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.108
+  Host is up (0.0038s latency).
+  Not shown: 31 closed tcp ports (conn-refused)
+  PORT     STATE SERVICE VERSION
+  22/tcp   open  ssh     OpenSSH 9.9p1 Ubuntu 3ubuntu3.2 (Ubuntu Linux; protocol 2.0)
+  | ssh-hostkey:
+  |   256 c8:07:3c:75:b9:6d:6f:42:bc:00:a1:3f:5b:35:41:91 (ECDSA)
+  |_  256 d1:d5:04:b1:56:2a:f9:91:7a:85:2d:c8:2a:d4:48:50 (ED25519)
+  |_banner: SSH-2.0-OpenSSH_9.9p1 Ubuntu-3ubuntu3.2
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  80/tcp   open  http    Caddy httpd
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  |_http-title: Site doesn't have a title (text/plain; charset=utf-8).
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  | http-headers:
+  |   Content-Type: text/plain; charset=utf-8
+  |   Server: Caddy
+  |   Date: Mon, 26 Oct 2026 17:00:30 GMT
+  |   Content-Length: 142
+  |   Connection: close
+  |
+  |_  (Request type: GET)
+  8112/tcp open  unknown
+  |_skypev2-version: ERROR: Script execution failed (use -d to debug)
+  |_rpc-grind: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  | fingerprint-strings:
+  |   GenericLines:
+  |     HTTP/1.1 400 Bad Request
+  |   GetRequest, HTTPOptions:
+  |     HTTP/1.0 200 OK
+  |     Server: TwistedWeb
+  |     Date: Mon, 26 Oct 2026 16:58:44 GMT
+  |     Content-Type: text/html; charset=utf-8
+  |     Content-Length: 2284
+  |     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  |     <html xmlns="http://www.w3.org/1999/xhtml">
+  |     <head>
+  |     <title>Deluge WebUI 2.2.0</title>
+  |     <link rel="icon" sizes="16x16" type="image/png"
+  |     href="/icons/deluge.png"/>
+  |     <link rel="icon" sizes="32x32" type="image/png"
+  |     href="/icons/deluge-32.png"/>
+  |     <!-- For Chrome, Android, iOS and Windows touch shortcuts: -->
+  |     <link rel="icon" sizes="192x192" type="image/png"
+  |     href="/icons/deluge-192.png"/>
+  |     <link rel="icon" sizes="512x512" type="image/png"
+  |     href="/icons/deluge-512.png"/>
+  |     <link rel="apple-touch-icon-precomposed"
+  |_    href="/icons/deluge-apple-1
+  9117/tcp open  http    Microsoft Kestrel httpd
+  |_http-title: Did not follow redirect to /UI/Dashboard
+  |_http-server-header: ERROR: Script execution failed (use -d to debug)
+  | http-headers:
+  |   Content-Length: 0
+  |   Connection: close
+  |   Date: Mon, 26 Oct 2026 17:00:29 GMT
+  |   Server: Kestrel
+  |   Location: /UI/Dashboard
+  |
+  |_  (Request type: GET)
+  |_hnap-info: ERROR: Script execution failed (use -d to debug)
+  |_http-trane-info: ERROR: Script execution failed (use -d to debug)
+  |_https-redirect: ERROR: Script execution failed (use -d to debug)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.150
+  Host is up (0.0039s latency).
+  Not shown: 34 closed tcp ports (conn-refused)
+  PORT   STATE SERVICE VERSION
+  22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.18 (Ubuntu Linux; protocol 2.0)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  | ssh-hostkey:
+  |   256 c7:c4:9c:45:c9:ca:b5:69:48:5a:f7:6e:b9:32:2f:45 (ECDSA)
+  |_  256 d7:38:f2:53:58:3b:0f:6c:e8:b9:d9:28:0a:b4:cc:7e (ED25519)
+  |_banner: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.18
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.151
+  Host is up (0.0039s latency).
+  Not shown: 34 closed tcp ports (conn-refused)
+  PORT   STATE SERVICE VERSION
+  22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.18 (Ubuntu Linux; protocol 2.0)
+  | ssh-hostkey:
+  |   256 c7:c4:9c:45:c9:ca:b5:69:48:5a:f7:6e:b9:32:2f:45 (ECDSA)
+  |_  256 d7:38:f2:53:58:3b:0f:6c:e8:b9:d9:28:0a:b4:cc:7e (ED25519)
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  |_banner: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.18
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.152
+  Host is up (0.0039s latency).
+  Not shown: 34 closed tcp ports (conn-refused)
+  PORT   STATE SERVICE VERSION
+  22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.4 (Ubuntu Linux; protocol 2.0)
+  | ssh-hostkey:
+  |   256 0e:ec:0a:9b:a4:0d:28:ff:ab:e8:52:92:f4:4c:ec:1a (ECDSA)
+  |_  256 56:8d:e3:3b:da:2e:90:72:2f:51:31:46:b2:0c:fe:22 (ED25519)
+  |_banner: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.4
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Nmap scan report for 192.168.1.165
+  Host is up (0.0039s latency).
+  Not shown: 34 closed tcp ports (conn-refused)
+  PORT   STATE SERVICE VERSION
+  22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.15 (Ubuntu Linux; protocol 2.0)
+  | ssh-hostkey:
+  |   256 24:e3:c4:f3:f1:72:50:37:56:0d:6e:4e:9c:52:ac:72 (ECDSA)
+  |_  256 e9:b4:ec:30:ab:c2:4d:d2:11:10:14:e9:c8:49:fd:46 (ED25519)
+  |_banner: SSH-2.0-OpenSSH_8.9p1 Ubuntu-3ubuntu0.15
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+  Post-scan script results:
+  | ssh-hostkey: Possible duplicate hosts
+  | Key 256 c7:c4:9c:45:c9:ca:b5:69:48:5a:f7:6e:b9:32:2f:45 (ECDSA) used by:
+  |   192.168.1.150
+  |   192.168.1.151
+  | Key 256 d7:38:f2:53:58:3b:0f:6c:e8:b9:d9:28:0a:b4:cc:7e (ED25519) used by:
+  |   192.168.1.150
+  |_  192.168.1.151
+  Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+  Nmap done: 11 IP addresses (11 hosts up) scanned in 143.01 seconds
+
+[*] Comprobación de puertos altos no identificados...
+
+$ nmap -sT -Pn -T4 --open -oX /home/rorshach/AUDITORIA_PLUS/informes/raw/unknown_ports_192_168_1_0_24_20261026_175833.xml -p 10162,44469 --max-retries 1 --host-timeout 60s 192.168.1.1 192.168.1.33 192.168.1.38 192.168.1.39 192.168.1.108 192.168.1.130 192.168.1.150 192.168.1.151 192.168.1.152 192.168.1.165 192.168.1.132
+  Starting Nmap 7.992 ( https://nmap.org ) at 2026-10-26 18:00 +0100
+  Nmap scan report for 192.168.1.38
+  Host is up (0.0016s latency).
+  Not shown: 1 closed tcp port (conn-refused)
+  PORT      STATE SERVICE
+  44469/tcp open  unknown
+  Nmap done: 11 IP addresses (11 hosts up) scanned in 2.22 seconds
+
+[*] Escaneo principal y detección de versiones (11 host(s))...
+
+$ nmap -sT -sV -Pn -T4 --open -oX /home/rorshach/AUDITORIA_PLUS/informes/raw/scan_192_168_1_0_24_20261026_175833.xml --script banner,http-title,http-headers,ssl-cert,ssh-hostkey,rpcinfo --script-timeout 30s -p 1,3,4,6,7,9,13,17,19,20,21,23,24,25,26,30,32,33,37,42,43,49,70,79,81,82,83,84,85,88,89,90,99,100,106,109,110,113 …
+  Starting Nmap 7.992 ( https://nmap.org ) at 2026-10-26 18:01 +0100
+  Nmap scan report for 192.168.1.33
+  Host is up (0.025s latency).
+  Not shown: 972 closed tcp ports (conn-refused)
+  PORT     STATE SERVICE   VERSION
+  9050/tcp open  tor-socks Tor SOCKS proxy
+  |_vmware-version: ERROR: Script execution failed (use -d to debug)
+  Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+  Nmap done: 11 IP addresses (11 hosts up) scanned in 18.78 seconds
+
+[+] Hosts activos: 11
+    Hallazgos: 0 crítico, 5 alto, 9 medio, 3 bajo
+
+[+] Informe HTML: /home/rorshach/AUDITORIA_PLUS/informes/informe_192_168_1_0_24_20261026_175833.html
+[+] Resumen JSON: /home/rorshach/AUDITORIA_PLUS/informes/informe_192_168_1_0_24_20261026_175833.json
+[+] XML crudo:    /home/rorshach/AUDITORIA_PLUS/informes/raw/scan_192_168_1_0_24_20261026_175833.xml
